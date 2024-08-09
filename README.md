@@ -105,34 +105,39 @@ Los tests unitarios cubren componentes clave del backend, incluyendo el servicio
 
 ## Docker
 
-Este proyecto incluye un Dockerfile para facilitar su despliegue en contenedores.
+Este proyecto incluye configuración para Docker y Docker Compose, lo que facilita la ejecución de la aplicación junto con su base de datos PostgreSQL.
 
-### Construir la imagen Docker
+### Requisitos
 
-1. Asegúrate de tener Docker instalado en tu sistema.
-2. Navega hasta el directorio raíz del proyecto donde se encuentra el Dockerfile.
-3. Ejecuta el siguiente comando para construir la imagen Docker:
+- Docker
+- Docker Compose
 
-```
-docker build -t prueba-tecnica-b4 .
-```
+### Ejecutar la aplicación con Docker Compose
 
-### Ejecutar el contenedor
+1. Asegúrate de estar en el directorio raíz del proyecto donde se encuentra el archivo `docker-compose.yml`.
 
-Una vez que la imagen se ha construido, puedes ejecutar el contenedor con el siguiente comando:
+2. Ejecuta el siguiente comando para construir y iniciar los contenedores:
 
-```
-docker run -p 8080:8080 prueba-tecnica-b4
-```
+   ```
+   docker-compose up --build
+   ```
 
-Este comando iniciará el contenedor y mapeará el puerto 8080 del contenedor al puerto 8080 de tu máquina host.
+   Este comando construirá la imagen de la aplicación, descargará la imagen de PostgreSQL si es necesario, y iniciará ambos servicios.
 
-### Notas sobre Docker
+3. La aplicación estará disponible en `http://localhost:8080` y la base de datos PostgreSQL en `localhost:5432`.
 
-- Asegúrate de que la aplicación esté configurada para conectarse a la base de datos PostgreSQL correctamente cuando se ejecute en un contenedor. Puedes necesitar ajustar la configuración de la base de datos en `application.properties` o usar variables de entorno.
-- Si necesitas pasar variables de entorno al contenedor, puedes hacerlo usando la opción `-e` en el comando `docker run`.
+4. Para detener los contenedores, puedes usar:
 
+   ```
+   docker-compose down
+   ```
 
+### Notas importantes
+
+- La base de datos se inicializa automáticamente con el nombre `prueba_tecnica_b4`, el usuario `prueba_user` y la contraseña `prueba_password`.
+- Los datos de la base de datos se persisten en un volumen Docker llamado `postgres_data`.
+- La aplicación espera a que la base de datos esté lista antes de intentar conectarse.
+- 
 ## Requisitos específicos de la prueba técnica
 
 Este proyecto cumple con los siguientes requisitos de la Prueba Técnica B4:
