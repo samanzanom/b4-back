@@ -23,14 +23,22 @@ Esta API proporciona funcionalidades para:
    ```
 
 2. Configurar la base de datos PostgreSQL:
-    - Crear una base de datos llamada `prueba_tecnica_b4`
-    - Actualizar las credenciales de la base de datos en `src/main/resources/application.properties`
+   - Crear una base de datos llamada `prueba_tecnica_b4`
+   - Actualizar las credenciales de la base de datos en `src/main/resources/application.properties`:
+
+     ```properties
+     spring.datasource.url=jdbc:postgresql://localhost:5432/prueba_tecnica_b4
+     spring.datasource.username=prueba_user
+     spring.datasource.password=prueba_password
+     spring.jpa.hibernate.ddl-auto=update
+     ```
+
+   Asegúrate de reemplazar `prueba_user` y `prueba_password` con tus credenciales reales de PostgreSQL.
 
 3. Compilar el proyecto:
    ```
    mvn clean install
    ```
-
 ## Ejecución
 
 Para ejecutar la aplicación:
@@ -50,11 +58,41 @@ La API estará disponible en `http://localhost:8080`
 
 ## Pruebas
 
-Para ejecutar las pruebas unitarias:
+### Preparación para pruebas manuales
+
+Antes de realizar pruebas manuales o de integración, es necesario registrar un usuario a través de la API REST. Puedes hacer esto utilizando una herramienta como Postman o curl:
+
+1. Registrar un nuevo usuario:
+   ```
+   POST http://localhost:8080/api/auth/register
+   Content-Type: application/json
+
+   {
+     "username": "testuser",
+     "password": "testpassword"
+   }
+   ```
+
+2. Una vez registrado, puedes usar este usuario para probar el endpoint de login y obtener un token JWT:
+   ```
+   POST http://localhost:8080/api/auth/login
+   Content-Type: application/json
+
+   {
+     "username": "testuser",
+     "password": "testpassword"
+   }
+   ```
+
+### Pruebas unitarias
+
+Este proyecto incluye tests unitarios utilizando JUnit 4 y Mockito. Para ejecutar las pruebas unitarias:
 
 ```
 mvn test
 ```
+
+Los tests unitarios cubren componentes clave del backend, incluyendo el servicio de autenticación.
 
 ## Tecnologías utilizadas
 
